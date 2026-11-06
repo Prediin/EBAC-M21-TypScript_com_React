@@ -1,0 +1,20 @@
+import styled from 'styled-components';
+
+export const Page = styled.div`min-height: 100vh; background: #f4f7f6;`;
+export const Header = styled.header`background: #123452; color: #fff; padding: 1.25rem clamp(1.25rem, 5vw, 5rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem;`;
+export const Brand = styled.div`display: flex; align-items: center; gap: .7rem;`;
+export const BrandMark = styled.span`color: #f2a23a; font-size: 1.8rem;`;
+export const BrandName = styled.span`font: 700 1.55rem Georgia, serif;`;
+export const HeaderNote = styled.span`color: #c8d9df; font-size: .9rem;`;
+export const Hero = styled.section`background: linear-gradient(125deg, #123452, #176b78); color: #fff; padding: 3.5rem clamp(1.25rem, 8vw, 8rem) 4rem;`;
+export const HeroContent = styled.div`max-width: 1200px; margin: 0 auto;`;
+export const Eyebrow = styled.p`margin: 0 0 .75rem; color: #f2b65b; font-size: .8rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;`;
+export const HeroTitle = styled.h1`max-width: 700px; margin: 0; font: 700 clamp(2.2rem, 5vw, 4rem)/1.05 Georgia, serif;`;
+export const HeroText = styled.p`max-width: 610px; margin: 1.25rem 0 0; color: #e3f0ef; font-size: 1.08rem; line-height: 1.7;`;
+export const Main = styled.main`width: min(1200px, calc(100% - 2.5rem)); margin: -2rem auto 0; padding-bottom: 3rem;`;
+export const ContentGrid = styled.div`display: grid; grid-template-columns: minmax(260px, .8fr) minmax(0, 1.5fr); gap: 1.5rem; align-items: start; @media (max-width: 760px) { grid-template-columns: 1fr; }`;
+export const SectionHeading = styled.div`margin: 2.5rem 0 1rem;`;
+export const SectionTitle = styled.h2`margin: 0; color: #123452; font: 700 1.8rem Georgia, serif;`;
+export const SectionText = styled.p`margin: .45rem 0 0; color: #61727b;`;
+export const ErrorMessage = styled.p`margin: 1rem 0; padding: .8rem 1rem; border-left: 4px solid #c65345; border-radius: .4rem; background: #fff0ee; color: #9c382e;`;
+export const Footer = styled.footer`padding: 1.5rem; color: #718087; font-size: .85rem; text-align: center;`;
