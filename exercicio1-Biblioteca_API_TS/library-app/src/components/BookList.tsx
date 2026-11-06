@@ -11,7 +11,7 @@ function BookList({ books, onDelete }: BookListProps) {
     return (
         <>
         {books.length === 0 ? (
-            <EmptyState>Nenhum livro cadastrado ainda.</EmptyState>
+            <EmptyState>Nenhum livro adicionado...</EmptyState>
         ) : (
           <List>
             {books.map((book) => (
