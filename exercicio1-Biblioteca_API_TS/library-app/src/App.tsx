@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import type { Book, NewBook } from './types/book';
 import BookForm from './components/BookForm';
 import BookList from './components/BookList';
 import GlobalStyles from './styles/GlobalStyles';
-import { Brand, BrandMark, BrandName, ContentGrid, ErrorMessage, Eyebrow, Footer, Header, HeaderNote, Hero, HeroContent, HeroText, HeroTitle, Main, Page, SectionHeading, SectionText, SectionTitle } from './styles/AppStyles';
-
-const API_URL = import.meta.env.VITE_API_URL;
+import { addBook, deleteBook, listBooks, usesLocalStorage } from './services/bookService';
+import { Brand, BrandMark, BrandName, ContentGrid, ErrorMessage, Eyebrow, Footer, Header, HeaderNote, Hero, HeroContent, HeroText, HeroTitle, LoadingMessage, Main, Page, SectionHeading, SectionText, SectionTitle } from './styles/AppStyles';
 
 function App() {
   const [books, setBooks] = useState<Book[]>([]);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchBooks() {
       try {
-        const response = await axios.get<Book[]>(API_URL);
-        setBooks(response.data);
+        setBooks(await listBooks());
       } catch (requestError) {
         console.error('Erro ao buscar livros:', requestError);
         setError('Não foi possível carregar os livros.');
+      } finally {
+        setIsLoading(false);
       }
     }
 
@@ -28,18 +28,19 @@ function App() {
 
   async function handleAddBook(newBook: NewBook) {
     try {
-      const response = await axios.post<Book>(API_URL, newBook);
-      setBooks((previousBooks) => [...previousBooks, response.data]);
+      const book = await addBook(newBook);
+      setBooks((previousBooks) => [...previousBooks, book]);
       setError('');
     } catch (requestError) {
       console.error('Erro ao adicionar livro:', requestError);
       setError('Não foi possível adicionar o livro.');
+      throw requestError;
     }
   }
 
   async function handleDeleteBook(id: string) {
     try {
-      await axios.delete(`${API_URL}/${id}`);
+      await deleteBook(id);
       setBooks((previousBooks) =>
         previousBooks.filter((book) => book._id !== id),
       );
@@ -64,7 +65,14 @@ function App() {
           <section>
             <SectionHeading><SectionTitle>Minha coleção</SectionTitle><SectionText>{books.length} {books.length === 1 ? 'livro cadastrado' : 'livros cadastrados'}</SectionText></SectionHeading>
             {error && <ErrorMessage role="alert">{error}</ErrorMessage>}
-            <BookList books={books} onDelete={handleDeleteBook} />
+            {isLoading ? (
+              <LoadingMessage role="status">Carregando livros...</LoadingMessage>
+            ) : (
+              <BookList books={books} onDelete={handleDeleteBook} />
+            )}
+            {usesLocalStorage && !isLoading && (
+              <SectionText>Os livros estão sendo salvos neste navegador.</SectionText>
+            )}
           </section>
         </ContentGrid>
       </Main>

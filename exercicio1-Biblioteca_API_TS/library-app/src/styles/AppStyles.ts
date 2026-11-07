@@ -17,4 +17,5 @@ export const SectionHeading = styled.div`margin: 2.5rem 0 1rem;`;
 export const SectionTitle = styled.h2`margin: 0; color: #123452; font: 700 1.8rem Georgia, serif;`;
 export const SectionText = styled.p`margin: .45rem 0 0; color: #61727b;`;
 export const ErrorMessage = styled.p`margin: 1rem 0; padding: .8rem 1rem; border-left: 4px solid #c65345; border-radius: .4rem; background: #fff0ee; color: #9c382e;`;
+export const LoadingMessage = styled.p`padding: 1rem 0; color: #61727b;`;
 export const Footer = styled.footer`padding: 1.5rem; color: #718087; font-size: .85rem; text-align: center;`;

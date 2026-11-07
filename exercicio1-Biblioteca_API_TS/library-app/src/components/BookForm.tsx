@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Field, Form, FormCard, FormTitle, Input, Select, SubmitButton } from "../styles/BookFormStyles";
 
 interface BookFormProps {
-    onAdd: (book: NewBook) => void;
+    onAdd: (book: NewBook) => Promise<void>;
 }
 
 function BookForm({ onAdd }: BookFormProps) {
@@ -14,6 +14,7 @@ function BookForm({ onAdd }: BookFormProps) {
         status: 'Não lido',
         rating: 0,
     })
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     function handleChange(
         event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -26,17 +27,23 @@ function BookForm({ onAdd }: BookFormProps) {
         }))
     }
 
-    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        setIsSubmitting(true);
 
-        onAdd(formData);
-
-        setFormData({
-            title: '',
-            author: '',
-            status: 'Não lido',
-            rating: 0,
-        })
+        try {
+            await onAdd(formData);
+            setFormData({
+                title: '',
+                author: '',
+                status: 'Não lido',
+                rating: 0,
+            })
+        } catch {
+            // O App exibe a mensagem de erro para a operação que falhou.
+        } finally {
+            setIsSubmitting(false);
+        }
     }
 
     return (
@@ -93,7 +100,9 @@ function BookForm({ onAdd }: BookFormProps) {
                 </Select>
             </Field>
 
-            <SubmitButton type="submit">Adicionar livro</SubmitButton>
+            <SubmitButton type="submit" disabled={isSubmitting}>
+                {isSubmitting ? 'Adicionando...' : 'Adicionar livro'}
+            </SubmitButton>
             </Form>
         </FormCard>
     )
